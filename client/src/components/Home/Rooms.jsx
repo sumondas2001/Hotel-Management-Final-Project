@@ -4,14 +4,20 @@ import Heading from '../Shared/Heading'
 import LoadingSpinner from '../Shared/LoadingSpinner'
 import { useQuery } from '@tanstack/react-query'
 import useAxiosCommon from '../../hooks/useAxiosCommon'
+import { useSearchParams } from 'react-router-dom'
 
 const Rooms = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const category = searchParams.get('category');
+  console.log(category);
 
   const axiosCommon = useAxiosCommon();
   const { data: rooms = [], isLoading: loading } = useQuery({
-    queryKey: ['rooms'],
+    queryKey: ['rooms', category],
     queryFn: async () => {
-      const { data } = await axiosCommon.get('/rooms')
+      const { data } = await axiosCommon.get(`/rooms?category=${category}`)
+      // console.log(data);
       return data
     }
   })
