@@ -49,9 +49,9 @@ const Login = () => {
     }
   };
 
-  const handelResetPassword = e => {
+  // const handelResetPassword = e => {
 
-  }
+  // }
 
   return (
     <div className='flex justify-center items-center min-h-screen'>
@@ -114,7 +114,7 @@ const Login = () => {
           </div>
         </form>
         <div className='space-y-1'>
-          <button onClick={handelResetPassword} className='text-xs hover:underline hover:text-rose-500 text-gray-400'>
+          <button className='text-xs hover:underline hover:text-rose-500 text-gray-400'>
             Forgot password?
           </button>
         </div>

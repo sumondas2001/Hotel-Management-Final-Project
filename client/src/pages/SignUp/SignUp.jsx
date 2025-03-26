@@ -1,13 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
-import useAxiosCommon from '../../hooks/useAxiosCommon'
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast'
 import { TbFidgetSpinner } from "react-icons/tb";
+import { imageUpload } from '../../api/utlit';
 
 const SignUp = () => {
-  const axiosCommon = useAxiosCommon();
-  const imgBbApiKey = 'aad67bbcb2f3a91c4cfd7df8360805d8';
+
   const { createUser, signInWithGoogle, updateUserProfile, loading, setLoading } = useAuth();
   const navigate = useNavigate();
   const handelSubmit = async (event) => {
@@ -19,20 +18,19 @@ const SignUp = () => {
     const password = form.password.value;
     const image = form.image.files[0]
 
-    const fromData = new FormData();
-    fromData.append('image', image)
+
 
     try {
       setLoading(true)
       // 1.upload image and get image url
-      const { data } = await axiosCommon.post(`https://api.imgbb.com/1/upload?key=${imgBbApiKey}`, fromData)
+      const image_url = await imageUpload(image)
 
       // 2. User Registration
       const result = await createUser(email, password)
       console.log(result);
 
       // 3.Save userName and photo in firebase
-      await updateUserProfile(name, data.data.display_url)
+      await updateUserProfile(name, image_url)
 
       navigate('/');
       toast.success('SingUp Successful')
